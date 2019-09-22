@@ -47,12 +47,12 @@ body {
 .text-input {
     background: rgba(0, 0, 0, 0);
     border: none;
-    width: 235px;
+    width: 245px;
     height: 45px;
     margin: 0px;
-    font-size: 36px;
+    font-size: 35px;
     padding-left: 10px;
-    align-self: center;
+    text-align: center;
 }
 
 #adder-circle {
