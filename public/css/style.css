@@ -1,8 +1,11 @@
-* {
-    -moz-box-sizing: border-box;
-    -webkit-box-sizing: border-box;
-    -o-box-sizing: border-box;
+html {
     box-sizing: border-box;
+}
+
+*,
+*:before,
+*:after {
+    box-sizing: inherit;
 }
 
 body {
@@ -33,9 +36,9 @@ body {
 }
 
 .logo {
+    background: url(../img/DND-Logo.svg);
     width: 55px;
     height: 45px;
-    image-rendering: crisp-edges;
 }
 
 .face {
