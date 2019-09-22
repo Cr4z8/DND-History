@@ -35,6 +35,7 @@ body {
 .logo {
     width: 55px;
     height: 45px;
+    image-rendering: crisp-edges;
 }
 
 .face {
