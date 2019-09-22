@@ -6,10 +6,56 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>D&D History</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Marcellus&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/3.1.0/mustache.min.js"></script>
+    <script src="js/index.js" async></script>
+
 </head>
 
 <body>
-    Das ist HTML!
+    <!-- logo Überschrift und Menuebutton-->
+    <div class="header">
+        <img src="img/DND-Logo.svg" alt="" class="logo">
+        <h1 class="headline">D&D History</h1>
+    </div>
+
+    <div id="session-container">
+
+    </div>
+
+    <!-- Kreis mit plus unten zum sessions hinzufügen -->
+    <div id="adder-circle">
+        <svg class="adder-plus" width="66" height="66">
+                    <rect x="32" y="16.5" width="2" height="33"
+                    style="fill:black;"/>
+                    <rect x="16.5" y="32" width="33" height="2"
+                    style="fill:black;"/>
+        </svg>
+    </div>
+
+
+
+
+    <!--templates-->
+    <script id="editable-session-template" type="text/template">
+        <!-- <div class="session" ... -->
+        <input type="text" class="text-input">
+        <div class="deletesymbol">
+            <svg width="36" height="36">
+                    <rect x="9" y="17" width="18" height="2" style="fill:white;"/>
+                </svg>
+        </div>
+    </script>
+
+    <script id="session-template" , type="text/template">
+        <!-- <div class="session" ... -->
+        <p class="text-input">{{sessionName}}</p>
+        <img src="img/edit-symbol.svg" alt="" class="editsymbol">
+    </script>
+
+
 </body>
 
 </html>
