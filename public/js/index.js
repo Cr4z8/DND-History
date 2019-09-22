@@ -22,9 +22,9 @@ function createEditableFace(session, sessionText) {
     });
     input.addEventListener("blur", () => {
         setTimeout(() => {
-            //const normalFace = createNormalFace(session, input.value);
-            //session.removeChild(editableFace);
-            //session.appendChild(normalFace);
+            const normalFace = createNormalFace(session, input.value);
+            session.removeChild(editableFace);
+            session.appendChild(normalFace);
         }, 100);
     });
     //deletesymbol
