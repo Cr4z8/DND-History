@@ -35,16 +35,16 @@ body {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding-left: 15px;
 }
 
 .text-input {
     background: rgba(0, 0, 0, 0);
     border: none;
-    width: 220px;
+    width: 200px;
     height: 45px;
     margin: 0px;
     font-size: 36px;
+    padding-left: 10px;
 }
 
 #adder-circle {
@@ -63,7 +63,7 @@ body {
     background: #AF1111;
     width: 36px;
     height: 36px;
-    margin-right: 4px;
+    margin: 0 4px 0 0;
 }
 
 .editsymbol {
