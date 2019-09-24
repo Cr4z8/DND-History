@@ -49,7 +49,10 @@ function createNormalFace(session, sessionText) {
 
 function scaleFontSize(container) {
     let fontSize = 36;
-    while (container.scrollHeight > container.clientHeight && fontSize > 5) {
+    console.log(container.scrollWidth);
+
+    console.log(container.clientWidth);
+    while ((container.scrollHeight > container.clientHeight || container.scrollWidth > 267) && fontSize > 5) {
         fontSize = 0.95 * fontSize;
         container.style.fontSize = fontSize + "px";
     }

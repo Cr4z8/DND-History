@@ -57,6 +57,9 @@ a:hover {
     background: rgba(0, 0, 0, 0);
     border: none;
     min-width: 10px;
+    min-height: 10px;
+    padding: 0px;
+    outline: none;
 }
 
 #adder-circle {
