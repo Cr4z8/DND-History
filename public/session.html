@@ -6,32 +6,40 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>D&D History</title>
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/index.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/session.css">
     <link href="https://fonts.googleapis.com/css?family=Marcellus&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/3.1.0/mustache.min.js"></script>
-    <script src="js/index.js" async></script>
+    <script src="js/session.js" async></script>
 
 </head>
 
 <body>
-    <!-- logo Überschrift und Menuebutton-->
+    <!-- logo Überschrift-->
     <div class="header">
         <embed type="image/svg+xml" src="img/DND-Logo.svg" />
         <h1 class="headline">D&D History</h1>
     </div>
 
-    <div id="session-container">
-        <div class="session">
+    <div id="adventure-card-container">
+        <div class="adventure-card">
             <div class="face">
-                <a href="session.html">
-                    <p class="text-input">Session 1</p>
-                </a>
-                <img src="img/edit-symbol.svg" alt="" class="editsymbol">
+                <input type="text" class="card-header-input" placeholder="Überschrift">
+                <p class="date">23.09.2019</p>
+                <textarea class="card-body-input" placeholder="was ist passiert?"></textarea>
             </div>
         </div>
 
+
+        <div class="adventure-card">
+            <div class="face">
+                <p class="card-header-input">Überfallen auf dem Schiff</p>
+                <p class="date">19.09.2019</p>
+                <p class="card-body-input">Wir fuhren alle gemeinsam auf einem Handelsschiff, als uns plötzlich eine Horde Goblins überfiel ...</p>
+                <img src="img/edit-symbol.svg" alt="" class="editsymbol">
+            </div>
+        </div>
 
 
     </div>
@@ -51,15 +59,17 @@
 
     <!--templates-->
     <script id="editable-face-template" type="text/template">
-        <!-- <div class="session" ... -->
-        <input type="text" class="text-input">
+        <!-- <div class="adventure-card" ... -->
+        <input type="text" class="card-header-input" placeholder="Überschrift">
+        <p class="date">{{date}}</p>
+        <textarea class="card-body-input" placeholder="was ist passiert?"></textarea>
     </script>
 
     <script id="face-template" , type="text/template">
-        <!-- <div class="session" ... -->
-        <a href="session.html">
-            <p class="text-input">{{sessionName}}</p>
-        </a>
+        <!-- <div class="adventure-card" ... -->
+        <p class="card-header-input">{{headerText}}</p>
+        <p class="date">{{date}}</p>
+        <p class="card-body-input">{{bodyText}}</p>
         <img src="img/edit-symbol.svg" alt="" class="editsymbol">
     </script>
 

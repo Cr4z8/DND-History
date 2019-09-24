@@ -10,7 +10,7 @@ document.getElementById("adder-circle").addEventListener("click", () => {
 });
 
 function createEditableFace(session, sessionText) {
-    const htmlEditable = document.getElementById("editable-session-template").innerHTML;
+    const htmlEditable = document.getElementById("editable-face-template").innerHTML;
     const editableFace = document.createElement("div");
     editableFace.className = "face";
     editableFace.innerHTML = htmlEditable;
@@ -21,15 +21,10 @@ function createEditableFace(session, sessionText) {
         if (e.which == 13) input.blur();
     });
     input.addEventListener("blur", () => {
-        setTimeout(() => {
-            const normalFace = createNormalFace(session, input.value);
-            session.removeChild(editableFace);
-            session.appendChild(normalFace);
-        }, 100);
-    });
-    //deletesymbol
-    editableFace.children[1].addEventListener("click", () => {
-        sessionContainer.removeChild(editableFace.parentElement);
+        const normalFace = createNormalFace(session, input.value);
+        session.removeChild(editableFace);
+        session.appendChild(normalFace);
+        scaleFontSize(normalFace.firstElementChild.firstElementChild);
     });
     return editableFace;
 }
@@ -37,7 +32,7 @@ function createEditableFace(session, sessionText) {
 function createNormalFace(session, sessionText) {
     const normalFace = document.createElement("div");
     normalFace.className = "face";
-    const template = document.getElementById("session-template").innerHTML;
+    const template = document.getElementById("face-template").innerHTML;
     const htmlNormal = Mustache.render(template, {
         sessionName: sessionText
     });
@@ -50,4 +45,12 @@ function createNormalFace(session, sessionText) {
         session.firstElementChild.firstElementChild.focus();
     })
     return normalFace;
+}
+
+function scaleFontSize(container) {
+    let fontSize = 36;
+    while (container.scrollHeight > container.clientHeight && fontSize > 5) {
+        fontSize = 0.95 * fontSize;
+        container.style.fontSize = fontSize + "px";
+    }
 }

@@ -1,0 +1,35 @@
+.face {
+    display: grid;
+    grid-template-columns: auto 45px;
+    grid-template-rows: auto auto 20px;
+    grid-template-areas: "card-header date" "card-body card-body" ". edit";
+    grid-gap: 3px 3px;
+    padding: 5px;
+}
+
+.card-header-input {
+    font-size: 30px;
+    min-width: 10px;
+    height: 37px;
+}
+
+.date {
+    font-size: 9px;
+    justify-self: end;
+    margin: 0px;
+}
+
+.card-body-input {
+    grid-area: card-body;
+    height: 150px;
+    resize: none;
+    text-align: justify;
+    text-justify: inter-character;
+    font-size: 15px;
+}
+
+.editsymbol {
+    grid-area: edit;
+    align-self: flex-end;
+    justify-self: end;
+}
