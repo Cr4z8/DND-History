@@ -22,27 +22,7 @@
         <h1 class="headline">D&D History</h1>
     </div>
 
-    <div id="adventure-card-container">
-        <div class="adventure-card">
-            <div class="face">
-                <input type="text" class="card-header-input" placeholder="Überschrift">
-                <p class="date">23.09.2019</p>
-                <textarea class="card-body-input" placeholder="was ist passiert?"></textarea>
-            </div>
-        </div>
-
-
-        <div class="adventure-card">
-            <div class="face">
-                <p class="card-header-input">Überfallen auf dem Schiff</p>
-                <p class="date">19.09.2019</p>
-                <p class="card-body-input">Wir fuhren alle gemeinsam auf einem Handelsschiff, als uns plötzlich eine Horde Goblins überfiel ...</p>
-                <img src="img/edit-symbol.svg" alt="" class="editsymbol">
-            </div>
-        </div>
-
-
-    </div>
+    <div id="adventure-card-container"></div>
 
     <!-- Kreis mit plus unten zum sessions hinzufügen -->
     <div id="adder-circle">
@@ -70,6 +50,7 @@
         <p class="card-header-input">{{headerText}}</p>
         <p class="date">{{date}}</p>
         <p class="card-body-input">{{bodyText}}</p>
+        <p class="min-max">{{minmax}}</p>
         <img src="img/edit-symbol.svg" alt="" class="editsymbol">
     </script>
 

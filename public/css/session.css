@@ -2,7 +2,7 @@
     display: grid;
     grid-template-columns: auto 45px;
     grid-template-rows: auto auto 20px;
-    grid-template-areas: "card-header date" "card-body card-body" ". edit";
+    grid-template-areas: "card-header date" "card-body card-body" "minMax edit";
     grid-gap: 3px 3px;
     padding: 5px;
 }
@@ -23,13 +23,16 @@
     grid-area: card-body;
     height: 150px;
     resize: none;
-    text-align: justify;
-    text-justify: inter-character;
     font-size: 15px;
+    overflow: hidden;
+}
+
+.min-max {
+    font-size: 12px;
+    align-self: flex-end;
 }
 
 .editsymbol {
-    grid-area: edit;
     align-self: flex-end;
     justify-self: end;
 }
