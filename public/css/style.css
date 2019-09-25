@@ -51,9 +51,9 @@ a:hover {
     margin-top: 20px;
 }
 
-.text-input,
-.card-header-input,
-.card-body-input {
+.body-input,
+.header-input,
+.body-input {
     background: rgba(0, 0, 0, 0);
     border: none;
     min-width: 10px;

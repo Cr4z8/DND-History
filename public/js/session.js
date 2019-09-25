@@ -1,101 +1,117 @@
-const cardContainer = document.getElementById("adventure-card-container");
+class ContainerBuilder {
+    //editablesClassNames.length != 0
+    // scalings is a list of "scaleFont" or "scaleContainer"
+    constructor(containerClassName, editablesClassNames, scalings, mustacheObject, faceClassName = "face", faceTemplateIDs = ["editable-face-template", "normal-face-template"], focusClassName = "body-input") {
+        this.container = document.createElement('div');
+        this.container.className = containerClassName;
+        this.face = document.createElement("div");
+        this.face.className = faceClassName;
+        this.container.appendChild(this.face);
+        this.editablesClassNames = editablesClassNames;
+        this.editableFaceTemplateID = faceTemplateIDs[0];
+        this.normalFaceTemplateID = faceTemplateIDs[1];
+        this.focusClassName = focusClassName;
+        this.scalings = scalings;
+        this.mustacheObject = mustacheObject;
+        this.applyEditableFace();
+    }
+
+    //editablesClassNames = classNames of the input objects
+    applyEditableFace(texts = []) {
+        const template = document.getElementById(this.editableFaceTemplateID).innerHTML;
+        const html = Mustache.render(template, this.mustacheObject);
+        this.face.innerHTML = html;
+        const editables = this.transferTexts(texts);
+        //add EventListener
+        editables.forEach(input => {
+            input.addEventListener("keypress", (e) => {
+                if (e.which == 13) input.blur();
+            });
+            input.addEventListener("blur", () => {
+                setTimeout(() => {
+                    for (let i = 0; i < editables.length; i++) {
+                        if (document.activeElement == editables[i]) return;
+                    }
+                    texts = [];
+                    editables.forEach(editable => {
+                        texts.push(editable.value);
+                    });
+                    this.applyNormalFace(texts);
+                    this.scale();
+                }, 50);
+            });
+        });
+        //setFocus
+        this.setFocus(this.focusClassName);
+    }
+
+    applyNormalFace(texts = []) {
+        const template = document.getElementById(this.normalFaceTemplateID).innerHTML;
+        const html = Mustache.render(template, this.mustacheObject);
+        this.face.innerHTML = html;
+        this.transferTexts(texts);
+
+        //editsymbol
+        this.face.getElementsByClassName("editsymbol")[0].addEventListener("click", () => {
+            this.applyEditableFace(texts);
+            this.scale();
+        });
+    }
+
+    transferTexts(texts = []) {
+        const editables = [];
+        this.editablesClassNames.forEach(editablesClassName => {
+            editables.push(this.face.getElementsByClassName(editablesClassName)[0]);
+        });
+        //apply the texts on the editables, if necessary
+        if (editables.length == 0 || (editables.length != texts.length && texts.length > 0)) {
+            console.log("Error, editables.length != texts.length");
+            return;
+        } else if (texts.length > 0 && editables.length == texts.length) {
+            for (let i = 0; i < editables.length; i++) {
+                editables[i].value = texts[i];
+                editables[i].innerHTML = texts[i];
+            }
+        }
+        return editables;
+    }
+
+    //muss eindeutig innerhalb der session sein
+    setFocus(className) {
+        this.container.getElementsByClassName(className)[0].focus();
+    }
+
+    build() {
+        return this.container;
+    }
+
+    scale() {
+        for (let i = 0; i < this.editablesClassNames.length; i++) {
+            const container = this.face.getElementsByClassName(this.editablesClassNames[i])[0];
+            const scaling = this.scalings[i]
+            if (scaling == "scaleFont") {
+                let fontSize = 36;
+                while ((container.scrollHeight > container.clientHeight || container.scrollWidth > 267) && fontSize > 5) {
+                    fontSize = 0.95 * fontSize;
+                    container.style.fontSize = fontSize + "px";
+                }
+            } else if (scaling == "scaleContainer") {
+                if (container.scrollHeight > container.clientHeight) {
+                    container.style.height = container.scrollHeight + "px";
+                }
+            }
+        }
+    }
+}
+
+
+
 var minmax = "";
 
 document.getElementById("adder-circle").addEventListener("click", () => {
-    const card = document.createElement('div');
-    card.className = "adventure-card";
     const date = new Date();
-    const dateString = date.getDate() + "." + (date.getMonth() + 1) + "." + date.getFullYear();
-    const editableFace = createEditableFace(card, "", dateString);
-    card.appendChild(editableFace);
-    cardContainer.appendChild(card);
-    card.firstElementChild.firstElementChild.focus();
+    const adventureCardBuilder = new ContainerBuilder("adventure-card", ["header-input", "body-input"], ["scaleFont", "scaleContainer"], {
+        date: date.getDate() + "." + (date.getMonth() + 1) + "." + date.getFullYear()
+    });
+    document.getElementById("adventure-card-container").appendChild(adventureCardBuilder.build());
 });
-
-function createEditableFace(card, headerText, date, bodyText) {
-    const editableFace = createFaceFromTemplate("editable-face-template", "face");
-    //header-input-text
-    const headerInput = editableFace.firstElementChild;
-    const bodyInput = editableFace.children[2];
-    headerInput.value = headerText == null ? "" : headerText;
-    bodyInput.value = bodyText == null ? "" : bodyText;
-    addBlurEventListener(headerInput, card, editableFace, headerInput, date, bodyInput);
-    //date
-    editableFace.children[1].innerHTML = date == null ? "" : date;
-    //body-input-text
-    addBlurEventListener(bodyInput, card, editableFace, headerInput, date, bodyInput);
-    return editableFace;
-}
-
-function createNormalFace(card, headerText, date, bodyText) {
-    const normalFace = createFaceFromTemplate("face-template", "face", {
-        headerText: headerText,
-        date: date,
-        bodyText: bodyText,
-        minmax: minmax
-    });
-    //minimize
-    normalFace.children[3].addEventListener("click", () => {
-        if (minmax == "verkleinern") {
-            normalFace.children[2].style.height = "150px";
-            minmax = "vergrößern";
-        } else if (minmax == "vergrößern") {
-            scaleContainerSize(normalFace.children[2]);
-            minmax = "verkleinern";
-        }
-        normalFace.children[3].innerHTML = minmax;
-    });
-    //editsymbol
-    normalFace.children[4].addEventListener("click", () => {
-        const editableFace = createEditableFace(card, headerText, date, bodyText);
-        card.removeChild(normalFace);
-        card.appendChild(editableFace);
-        editableFace.children[2].focus();
-        scaleContainerSize(editableFace.children[2]);
-    })
-    return normalFace;
-}
-
-function addBlurEventListener(container, card, editableFace, headerInput, date, bodyInput) {
-    container.addEventListener("keypress", (e) => {
-        if (e.which == 13) container.blur();
-    });
-    container.addEventListener("blur", () => {
-        setTimeout(() => {
-            if (document.activeElement == editableFace.children[0] || document.activeElement == editableFace.children[2]) {
-                return;
-            }
-            minmax = editableFace.children[2].scrollHeight > 200 ? "verkleinern" : "";
-            const normalFace = createNormalFace(card, headerInput.value, date, bodyInput.value);
-            card.removeChild(editableFace);
-            card.appendChild(normalFace);
-            scaleFontSize(normalFace.firstElementChild);
-            scaleContainerSize(normalFace.children[2]);
-        }, 50);
-    });
-}
-
-
-function createFaceFromTemplate(templateID, faceClassName, mustacheObject) {
-    const template = document.getElementById(templateID).innerHTML;
-    const face = document.createElement("div");
-    face.className = faceClassName;
-    const html = mustacheObject == null ? template : Mustache.render(template, mustacheObject);
-    face.innerHTML = html;
-    return face;
-}
-
-
-function scaleFontSize(container) {
-    let fontSize = 36;
-    while (container.scrollHeight > container.clientHeight && fontSize > 5) {
-        fontSize = 0.95 * fontSize;
-        container.style.fontSize = fontSize + "px";
-    }
-}
-
-function scaleContainerSize(container) {
-    if (container.scrollHeight > container.clientHeight) {
-        container.style.height = container.scrollHeight + "px";
-    }
-}
