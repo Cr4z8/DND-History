@@ -3,9 +3,6 @@ const http = require('http');
 const express = require('express');
 const socketIO = require('socket.io');
 
-const { ContainerBuilder } = require('../public/js/containerBuilder');
-
-
 const publicPath = path.join(__dirname, "/../public");
 const port = process.env.PORT || 3000;
 let app = express();
@@ -14,15 +11,28 @@ let io = socketIO.listen(server);
 
 app.use(express.static(publicPath));
 
+const sessions = [{ texts: ["Session 1"] }, { texts: ["Session 2"] }];
+const session1 = [{ texts: ["Header 1", "Body 1"] }, { texts: ["Header 2", "Body 2"] }];
+const session2 = [{ texts: ["Header 3", "Body 3"] }, { texts: ["Header 4", "Body 4"] }, { texts: ["Header 5", "Body 5"] }];
+const adventureCards = [session1, session2];
+
 io.on('connection', (socket) => {
-
-
-    socket.on('createContainerBuilder', (params) => {
-        console.log(params);
-        const containerBuilder = new ContainerBuilder(params.containerClassName, params.editablesClassNames, params.scalings, params.mustacheObject, params.focusClassName);
-        callback(ContainerBuilder.build());
+    socket.on('loadSessions', () => {
+        socket.emit('loadSessions', sessions);
+    });
+    socket.on('saveSession', (params) => {
+        sessions[params.id] = { texts: [params.bodyText] };
     });
 
+    socket.on('loadAdventureCards', (sessionID) => {
+        socket.emit('loadAdventureCards', adventureCards[sessionID])
+    });
+
+    socket.on('saveAdventureCard', (params) => {
+        // sessionID, cardID, headerText, bodyText
+        console.log(params);
+        adventureCards[params.sessionID][params.cardID] = { texts: params.texts };
+    });
 });
 
 server.listen(port, () => {

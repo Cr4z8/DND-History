@@ -33,12 +33,12 @@ body {
     margin-right: 10px;
 }
 
-a {
+.link {
     text-decoration: none;
     color: black;
 }
 
-a:hover {
+.link:hover {
     color: #AF1111;
 }
 
