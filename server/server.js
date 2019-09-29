@@ -29,8 +29,9 @@ io.on('connection', (socket) => {
     });
 
     socket.on('saveAdventureCard', (params) => {
-        // sessionID, cardID, headerText, bodyText
-        console.log(params);
+        if (params.sessionID >= adventureCards.length) {
+            adventureCards.push([]);
+        }
         adventureCards[params.sessionID][params.cardID] = { texts: params.texts };
     });
 });

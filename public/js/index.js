@@ -16,7 +16,6 @@ class SessionData {
 
     // texts has always length 1 
     save() {
-        console.log(this.id);
         socket.emit('saveSession', { id: this.id, bodyText: this.texts[0] });
     }
 }

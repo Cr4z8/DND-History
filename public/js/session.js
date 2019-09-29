@@ -18,7 +18,6 @@ class AdventureCardData {
 
     // texts has always length 2 
     save() {
-        console.log({ sessionID: this.sessionID, cardID: this.id, texts: this.texts });
         socket.emit('saveAdventureCard', { sessionID: this.sessionID, cardID: this.id, texts: this.texts });
     }
 }
